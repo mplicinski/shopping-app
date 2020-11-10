@@ -3,9 +3,7 @@ package edu.depaul.se433.shoppingapp;
 import edu.depaul.se433.shoppingapp.ShippingType;
 import edu.depaul.se433.shoppingapp.TotalCostCalculator;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.internal.matchers.Null;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -138,6 +136,5 @@ public class TotalCostCalculatorTests {
     double finalCost = TotalCostCalculator.calculate(50.01, "IL", ShippingType.STANDARD);
     assertEquals(50.01, finalCost);
   }
-
 
 }
