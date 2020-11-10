@@ -1,12 +1,8 @@
 package edu.depaul.se433.shoppingapp;
 
-import edu.depaul.se433.shoppingapp.ShippingType;
-import edu.depaul.se433.shoppingapp.TotalCostCalculator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
-
 
 public class TotalCostCalculatorTests {
 
