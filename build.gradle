@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id "io.freefair.lombok" version "5.1.0"
     id 'org.springframework.boot' version '2.3.3.RELEASE'
+    id 'jacoco'
 }
 
 repositories {
@@ -35,13 +36,15 @@ bootJar {
     mainClassName = 'edu.depaul.se433.shoppingapp.ShoppingAppApplication'
 }
 
-def test = tasks.named("test") {
+//def test = tasks.named("test") {
 
+test {
     useJUnitPlatform ()
     ignoreFailures(true)
-    afterTest { desc, result ->
-        logger.quiet "Executing test ${desc.name} [${desc.className}] with result: ${result.resultType}"
-    }
+    //afterTest { desc, result ->
+    //    logger.quiet "Executing test ${desc.name} [${desc.className}] with result: ${result.resultType}"
+    //}
+    finalizedBy jacocoTestReport
 }
 
 task packageDistribution(type: Zip) {
@@ -51,6 +54,7 @@ task packageDistribution(type: Zip) {
 
     from("$projectDir") {
         include "src/**/*"
+        include "build/reports/jacoco/**/*"
         include "build.gradle"
         include "gradlew"
         include "gradlew.bat"
@@ -60,8 +64,25 @@ task packageDistribution(type: Zip) {
     into("${user}-${rootProject.name}")
 }
 
+jacocoTestReport {
+    dependsOn test
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.2
+            }
+        }
+    }
+}
+
 check {
     finalizedBy packageDistribution
+    dependsOn {
+        jacocoTestCoverageVerification
+    }
 }
 
 
