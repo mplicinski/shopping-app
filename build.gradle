@@ -30,7 +30,8 @@ dependencies {
 }
 
 task cukesTest(type: Test) {
-    include "edu/depaul/se433/shopping/TestRunner*"
+    include "edu/depaul/se433/shoppingapp/TestRunner*"
+    ignoreFailures(true)
 }
 
 group = 'edu.depail.se433'
@@ -49,11 +50,11 @@ bootJar {
 test {
     useJUnitPlatform ()
     ignoreFailures(true)
-    finalizedBy jacocoTestReport
-    finalizedBy cukesTest
     afterTest { desc, result ->
         logger.quiet "Executing test ${desc.name} [${desc.className}] with result: ${result.resultType}"
     }
+    finalizedBy jacocoTestReport
+    finalizedBy cukesTest
 }
 
 task packageDistribution(type: Zip) {
@@ -93,16 +94,5 @@ check {
         jacocoTestCoverageVerification
     }
 }
-/*
-build {
-    dependsOn 'pitest'
-}
-*/
-
-pitest {
-    junit5PluginVersion = '0.12'
-    mutationThreshold = 70
-}
-
 
 
