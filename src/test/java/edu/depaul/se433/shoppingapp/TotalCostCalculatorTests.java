@@ -33,7 +33,7 @@ public class TotalCostCalculatorTests {
   @DisplayName("Over $50 - Tax - Next Day Shipping")
   void over50_tax_nextDay() {
     double finalCost = TotalCostCalculator.calculate(100.00, "IL", ShippingType.NEXT_DAY);
-    assertEquals(131.00, finalCost);
+      assertEquals(131.00, finalCost);
   }
 
   @Test
@@ -105,7 +105,7 @@ public class TotalCostCalculatorTests {
   @DisplayName("Invalid lower boundary - $0.00")
   void invalid_lower_boundary() {
     try {
-      double finalCost = TotalCostCalculator.calculate(0.00, "IL", ShippingType.STANDARD);
+      double finalCost = TotalCostCalculator.calculate(0.00, "AZ", ShippingType.STANDARD);
       fail();
     } catch (IllegalArgumentException e) {
       assert(true);
@@ -115,21 +115,21 @@ public class TotalCostCalculatorTests {
   @Test
   @DisplayName("Valid lower boundary - $0.01")
   void valid_lower_boundary() {
-    double finalCost = TotalCostCalculator.calculate(0.01, "IL", ShippingType.STANDARD);
+    double finalCost = TotalCostCalculator.calculate(0.01, "AZ", ShippingType.STANDARD);
     assertEquals(10.01, finalCost);
   }
 
   @Test
   @DisplayName("Under for free standard shipping boundary - $50")
   void under_free_shipping() {
-    double finalCost = TotalCostCalculator.calculate(50.00, "IL", ShippingType.STANDARD);
+    double finalCost = TotalCostCalculator.calculate(50.00, "AZ", ShippingType.STANDARD);
     assertEquals(60.00, finalCost);
   }
 
   @Test
   @DisplayName("Over for free standard shipping boundary - $50.01")
   void over_free_shipping() {
-    double finalCost = TotalCostCalculator.calculate(50.01, "IL", ShippingType.STANDARD);
+    double finalCost = TotalCostCalculator.calculate(50.01, "AZ", ShippingType.STANDARD);
     assertEquals(50.01, finalCost);
   }
 
