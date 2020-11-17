@@ -3,6 +3,7 @@ plugins {
     id "io.freefair.lombok" version "5.1.0"
     id 'org.springframework.boot' version '2.3.3.RELEASE'
     id 'jacoco'
+    id 'info.solidsoft.pitest' version '1.5.1'
 }
 
 repositories {
@@ -11,6 +12,7 @@ repositories {
 }
 
 dependencies {
+    def cucumberVersion = '6.6.1'
     implementation 'org.springframework.boot:spring-boot-starter-web:2.3.0.RELEASE'
     implementation 'javax.persistence:javax.persistence-api:2.2'
     implementation 'org.projectlombok:lombok:1.18.12'
@@ -23,6 +25,12 @@ dependencies {
 //    testImplementation 'org.assertj:assertj-core:3.16.1'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.1'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.6.1'
+    testImplementation "io.cucumber:cucumber-java:$cucumberVersion"
+    testImplementation "io.cucumber:cucumber-junit:$cucumberVersion"
+}
+
+task cukesTest(type: Test) {
+    include "edu/depaul/se433/shopping/TestRunner*"
 }
 
 group = 'edu.depail.se433'
@@ -41,10 +49,11 @@ bootJar {
 test {
     useJUnitPlatform ()
     ignoreFailures(true)
-    //afterTest { desc, result ->
-    //    logger.quiet "Executing test ${desc.name} [${desc.className}] with result: ${result.resultType}"
-    //}
     finalizedBy jacocoTestReport
+    finalizedBy cukesTest
+    afterTest { desc, result ->
+        logger.quiet "Executing test ${desc.name} [${desc.className}] with result: ${result.resultType}"
+    }
 }
 
 task packageDistribution(type: Zip) {
@@ -84,5 +93,16 @@ check {
         jacocoTestCoverageVerification
     }
 }
+/*
+build {
+    dependsOn 'pitest'
+}
+*/
+
+pitest {
+    junit5PluginVersion = '0.12'
+    mutationThreshold = 70
+}
+
 
 
